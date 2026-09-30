@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {encrypt,decrypt} from '../docs/crypto.mjs';
+const text = '# 测试\n中文正文 👋\n```java\nSystem.out.println("hello");\n```\n<script>alert(1)</script>';
+const password = 'verification-only-password';
+const a = await encrypt(text,password), b = await encrypt(text,password);
+assert.equal(await decrypt(a,password),text);
+assert.notEqual(a.salt,b.salt);
+assert.notEqual(a.iv,b.iv);
+await assert.rejects(decrypt(a,'wrong-password'));
+const tampered = {...a,ciphertext:(a.ciphertext[0]==='A'?'B':'A')+a.ciphertext.slice(1)};
+await assert.rejects(decrypt(tampered,password));
+await assert.rejects(decrypt({...a,iterations:1},password));
+console.log('PASS: 中文往返、随机参数、错误密码、密文篡改、格式校验。');

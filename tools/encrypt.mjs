@@ -1,0 +1,10 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {encrypt} from '../docs/crypto.mjs';
+const [source,destination] = process.argv.slice(2);
+const password = process.env.MISC_NOTES_PASSWORD;
+if (!source || !destination || !password) throw new Error('需要输入文件、输出文件和本地密码。');
+const content = await readFile(source,'utf8');
+if (Buffer.byteLength(content,'utf8') > 8000000) throw new Error('正文不能超过 8 MB。');
+const payload = await encrypt(content,password);
+await writeFile(destination,JSON.stringify(payload,null,2)+'\n','utf8');
+console.log('已生成密文。');

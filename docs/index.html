@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Notes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <p class="eyebrow">PERSONAL NOTES</p>
+    <h1>查看笔记</h1>
+    <p class="intro">输入密码，在当前浏览器中解密。</p>
+    <form id="unlock">
+      <label for="password">密码</label>
+      <div class="row"><input id="password" type="password" autocomplete="off" required placeholder="输入解密密码"><button id="decrypt" type="submit">解密</button></div>
+    </form>
+    <p id="status" role="status" aria-live="polite">正在加载密文…</p>
+    <section id="result" hidden>
+      <div class="toolbar"><span>笔记正文</span><div><button id="copy" type="button" class="secondary">复制全文</button><button id="clear" type="button" class="secondary">清空</button></div></div>
+      <pre id="content" tabindex="0"></pre>
+    </section>
+    <footer>密码与解密正文不会发送到服务器。离开页面后需重新输入密码。</footer>
+  </main>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+.local/
+*.dpapi
+answer.md
+answer.txt
+node_modules/
