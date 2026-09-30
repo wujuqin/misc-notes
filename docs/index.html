@@ -5,25 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
-  <title>Notes</title>
-  <link rel="stylesheet" href="style.css">
+  <title>随手记</title>
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
+  <header class="site-header"><a class="brand" href="./" aria-label="随手记首页"><span class="mark" aria-hidden="true">n.</span><span>随手记</span></a><span class="site-caption">记录 · 整理</span></header>
   <main>
-    <p class="eyebrow">PERSONAL NOTES</p>
-    <h1>查看笔记</h1>
-    <p class="intro">输入密码，在当前浏览器中解密。</p>
+    <p class="eyebrow">A SMALL NOTEBOOK</p>
+    <h1>留下一点思路。</h1>
+    <p class="intro">零散的想法、有用的片段，随用随记。</p>
+    <div class="topics" aria-label="笔记主题"><span>摘录</span><span>草稿</span><span>片段</span></div>
     <form id="unlock">
-      <label for="password">密码</label>
-      <div class="row"><input id="password" type="password" autocomplete="off" required placeholder="输入解密密码"><button id="decrypt" type="submit">解密</button></div>
+      <label for="password">笔记口令</label>
+      <div class="row"><input id="password" type="password" autocomplete="off" required placeholder="输入口令"><button id="decrypt" type="submit">打开笔记</button></div>
     </form>
-    <p id="status" role="status" aria-live="polite">输入密码后，读取最新笔记并解密。</p>
+    <p id="status" role="status" aria-live="polite">输入口令，查看最近一页。</p>
     <section id="result" hidden>
-      <div class="toolbar"><span>笔记正文</span><div><button id="copy" type="button" class="secondary">复制全文</button><button id="clear" type="button" class="secondary">清空</button></div></div>
+      <div class="toolbar"><span>最近一页</span><div><button id="copy" type="button" class="secondary">复制全文</button><button id="clear" type="button" class="secondary">收起</button></div></div>
       <pre id="content" tabindex="0"></pre>
     </section>
-    <footer>密码与解密正文不会发送到服务器。离开页面后需重新输入密码。</footer>
+    <footer>写下来，慢慢整理。</footer>
   </main>
-  <script type="module" src="app.mjs?v=2"></script>
+  <script type="module" src="app.mjs?v=3"></script>
 </body>
 </html>

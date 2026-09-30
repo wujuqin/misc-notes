@@ -7,21 +7,21 @@ $('unlock').addEventListener('submit', async event => {
   const password = $('password').value;
   clear();
   $('decrypt').disabled=true;
-  $('status').textContent='正在读取最新笔记…';
+  $('status').textContent='正在打开笔记…';
   try {
     if (!crypto.subtle) throw new LoadError('请使用 HTTPS 打开页面。');
     const payload = await loadLatest();
-    $('status').textContent='正在解密…';
+    $('status').textContent='正在整理页面…';
     const text = await decrypt(payload, password);
     $('content').textContent=text;
     $('result').hidden=false;
-    $('status').textContent='解密成功。';
-  } catch (error) { $('status').textContent=error instanceof LoadError ? error.message : '解密失败：密码不正确或笔记文件损坏。'; }
+    $('status').textContent='笔记已打开。';
+  } catch (error) { $('status').textContent=error instanceof LoadError ? error.message : '未能打开笔记，请检查口令或笔记文件。'; }
   finally { $('decrypt').disabled=false; }
 });
 $('copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('content').textContent); $('status').textContent='已复制全文。'; }
   catch { $('status').textContent='浏览器未允许自动复制，请选中正文后手动复制。'; }
 });
-$('clear').addEventListener('click', () => {clear(); $('status').textContent='正文已清空。'; $('password').focus();});
+$('clear').addEventListener('click', () => {clear(); $('status').textContent='笔记已收起。'; $('password').focus();});
 window.addEventListener('pagehide',clear);
