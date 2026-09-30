@@ -1,25 +1,22 @@
 import {decrypt} from './crypto.mjs';
+import {loadLatest, LoadError} from './source.mjs';
 const $ = id => document.getElementById(id);
 const clear = () => { $('password').value=''; $('content').textContent=''; $('result').hidden=true; };
-async function load() {
-  const response = await fetch(`./payload.json?t=${Date.now()}`, {cache:'no-store',credentials:'omit'});
-  if (!response.ok) throw new Error('无法获取密文');
-  return response.json();
-}
-load().then(() => { $('status').textContent='密文已就绪，请输入密码。'; }).catch(() => { $('status').textContent='密文尚未就绪，请稍后刷新。'; });
 $('unlock').addEventListener('submit', async event => {
   event.preventDefault();
   const password = $('password').value;
   clear();
   $('decrypt').disabled=true;
-  $('status').textContent='正在解密…';
+  $('status').textContent='正在读取最新笔记…';
   try {
-    if (!crypto.subtle) throw new Error('需要 HTTPS');
-    const text = await decrypt(await load(), password);
+    if (!crypto.subtle) throw new LoadError('请使用 HTTPS 打开页面。');
+    const payload = await loadLatest();
+    $('status').textContent='正在解密…';
+    const text = await decrypt(payload, password);
     $('content').textContent=text;
     $('result').hidden=false;
     $('status').textContent='解密成功。';
-  } catch { $('status').textContent='解密失败：密码不正确、密文损坏，或页面尚未更新。请确认使用 HTTPS。'; }
+  } catch (error) { $('status').textContent=error instanceof LoadError ? error.message : '解密失败：密码不正确或笔记文件损坏。'; }
   finally { $('decrypt').disabled=false; }
 });
 $('copy').addEventListener('click', async () => {
