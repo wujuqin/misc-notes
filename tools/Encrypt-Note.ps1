@@ -1,4 +1,4 @@
-﻿param([Parameter(Mandatory=$true)][string]$InputFile)
+﻿param([Parameter(Mandatory=$true)][string]$InputFile, [string[]]$Images = @())
 $ErrorActionPreference = 'Stop'
 $repoDir = Split-Path $PSScriptRoot -Parent
 $passwordFile = Join-Path $repoDir '.local\password.dpapi'
@@ -10,6 +10,7 @@ try {
   $env:MISC_NOTES_PASSWORD = [System.Net.NetworkCredential]::new('', $secure).Password
   $nodePath = 'C:\Users\Wu\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe'
   if (-not (Test-Path -LiteralPath $nodePath)) { $nodePath = (Get-Command node -ErrorAction Stop).Source }
-  & $nodePath (Join-Path $PSScriptRoot 'encrypt.mjs') (Resolve-Path -LiteralPath $InputFile).Path (Join-Path $repoDir 'docs\payload.json')
+  $resolvedImages = @($Images | ForEach-Object { (Resolve-Path -LiteralPath $_).Path })
+  & $nodePath (Join-Path $PSScriptRoot 'encrypt.mjs') (Resolve-Path -LiteralPath $InputFile).Path (Join-Path $repoDir 'docs\payload.json') @resolvedImages
   if ($LASTEXITCODE -ne 0) { throw '加密失败。' }
 } finally { [Environment]::SetEnvironmentVariable('MISC_NOTES_PASSWORD',$saved,'Process') }

@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src blob:; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
   <title>笔记</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <main>
@@ -19,8 +19,9 @@
     <section id="result" hidden>
       <div class="toolbar"><span>正文</span><div><button id="copy" type="button" class="secondary">复制全文</button><button id="clear" type="button" class="secondary">收起</button></div></div>
       <pre id="content" tabindex="0"></pre>
+      <div id="images"></div>
     </section>
   </main>
-  <script type="module" src="app.mjs?v=3"></script>
+  <script type="module" src="app.mjs?v=5"></script>
 </body>
 </html>
