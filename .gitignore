@@ -1,0 +1,6 @@
+.local/
+/tools/
+*.dpapi
+answer.md
+answer.txt
+node_modules/
